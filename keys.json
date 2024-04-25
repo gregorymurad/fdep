@@ -1,0 +1,4 @@
+{
+  "IOT_CONNECTION_STRING":"mongodb+srv://marine:robotics@cluster0.fzabiqr.mongodb.net/db?retryWrites=true&w=majority",
+  "SWARM_CONNECTION_STRING":"mongodb+srv://marine:robotics@cluster0.fzabiqr.mongodb.net/swarm_exo?retryWrites=true&w=majority"
+}
