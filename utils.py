@@ -15,11 +15,11 @@ def create_requirements():
     new_requirements = [pkg.replace('==', '<=') for pkg in packages]
 
     # Write the modified requirements to a file
-    with open('requirements_less_than.txt', 'w') as f:
+    with open('requirements.txt', 'w') as f:
         for line in new_requirements:
             f.write(line + '\n')
 
-    print('requirements_less_than.txt generated successfully.')
+    print('requirements.txt generated successfully.')
 
 
 def read_json(file_path):# Open the file in read mode

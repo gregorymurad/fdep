@@ -16,11 +16,11 @@ st.title("Real-Time Data Dashboard")
 def database_access(x):
     db_url = None
     if x == "iot":
-        db_url = utils.read_json("keys.json")["IOT_CONNECTION_STRING"]
+        db_url = ""
         db_name = "db"
     elif x == "swarm":
         st.success("Amazing! The swarm is found and ready to deliver quality data. 🚤🏝️")
-        db_url = utils.read_json("keys.json")["SWARM_CONNECTION_STRING"]
+        db_url = st.secrets["SWARM_CONNECTION_STRING"]
         db_name = "swarm_exo"
 
     if db_url is None:
