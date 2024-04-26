@@ -20,8 +20,10 @@ def database_access(x):
         db_name = "db"
     elif x == "swarm":
         st.success("Amazing! The swarm is found and ready to deliver quality data. 🚤🏝️")
-        db_url = st.secrets["SWARM_CONNECTION_STRING"]
-        db_name = "swarm_exo"
+        # db_url = st.secrets["SWARM_CONNECTION_STRING"]
+        db_url = "mongodb+srv://marine:robotics@cluster0.fzabiqr.mongodb.net/?retryWrites=true&w=majority"
+        # db_name = "swarm_exo"
+        db_name = "biscaynebay"
 
     if db_url is None:
         st.error(f"Missing environment variable: '{x.upper()}_CONNECTION_STRING'")
@@ -41,8 +43,8 @@ def database_access(x):
         if st.button("Update Data"):
 
             print("Session state collection type:", type(st.session_state['collection']))
-            st.switch_page(f"pages/real_time_stream_{x}.py")  # Make sure the state is already updated
-
+            # st.switch_page(f"pages/real_time_stream_{x}.py")  # Make sure the state is already updated
+            st.switch_page(f"pages/dashboard2.py")
     this_client.close()
 
 
