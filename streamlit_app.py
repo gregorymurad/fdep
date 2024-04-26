@@ -20,8 +20,7 @@ def database_access(x):
         db_name = "db"
     elif x == "swarm":
         st.success("Amazing! The swarm is found and ready to deliver quality data. 🚤🏝️")
-        # db_url = st.secrets["SWARM_CONNECTION_STRING"]
-        db_url = "mongodb+srv://marine:robotics@cluster0.fzabiqr.mongodb.net/?retryWrites=true&w=majority"
+        db_url = st.secrets["SWARM_CONNECTION_STRING"]
         # db_name = "swarm_exo"
         db_name = "biscaynebay"
 
