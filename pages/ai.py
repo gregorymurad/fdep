@@ -187,7 +187,7 @@ st.header("Making water quality data clear as Biscayne Bay.")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
-        {'role': 'system', "content": f"The data you should use to answer the questions is in {data}."},
+        {'role': 'system', "content": f"You are going to answer questions about the water quality data in Biscayne Bay, Florida. Questions can be similar to queries, where users may ask you about the columns names, average of a certain column, etc. The overall goal is environmental monitoring. The data you should use to answer the questions is in {data}."},
         {"role": "assistant", "content": "I am BayBot, the smartest bot ever. I am here to bring Biscayne Bay's underwater secrets to the surface. How can I help you?"}]
 
 for msg in st.session_state.messages:
