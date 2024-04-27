@@ -42,7 +42,7 @@ def database_access(x):
         if st.button("Update Data"):
 
             print("Session state collection type:", type(st.session_state['collection']))
-            # st.switch_page(f"pages/real_time_stream_{x}.py")  # Make sure the state is already updated
+            # st.switch_page(f"myPages/real_time_stream_{x}.py")  # Make sure the state is already updated
             st.switch_page(f"pages/dashboard2.py")
     this_client.close()
 
@@ -52,6 +52,6 @@ option_ = st.selectbox("Select a Dashboard", ("", "Real Time Data", "Historical 
 if option_ == "Real Time Data":
     database_access('swarm')
 elif option_ == "Historical Data":
-    st.switch_page(f"pages/historicalData.py")
+    st.switch_page(f"myPages/historicalData.py")
 elif option_ == "AI 🤖":
-    st.switch_page(f"pages/ai.py")
+    st.switch_page(f"myPages/ai.py")

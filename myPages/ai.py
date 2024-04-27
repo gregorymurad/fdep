@@ -10,6 +10,7 @@ from typing import List
 # db_ = client2["biscaynebay"]
 # collection_ = db_["mission_202404251553"]
 
+
 # DATA BY LOCATION
 # |-> BBC
 # |--> Data by date
@@ -71,6 +72,7 @@ bbc_nov_2022_2 = "Logs/BBC/13 - Biscayne Bay - November 16th 2022/11-16-22-missi
 lr_oct_2020_1 = "Logs/LittleRiver/ManualLog_17_00_45_64.csv" #oct3
 lr_oct_2020_2 = "Logs/LittleRiver/20201004_171844_TestForLittleRiver_IVER2-218.csv"
 lr_oct_2020_3 = "Logs/LittleRiver/20201004_180324_LittleRiverOct4_IVER2-218.csv"
+
 
 # st.markdown("---")
 col1, col2, col3 = st.columns(3)
@@ -173,6 +175,7 @@ def fetch_latest_data_iot(x):
 # data = data_df[["Temp (C)", "Sal (PPT)", "Depth (m)"]]
 data = entire_ds
 
+
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="Open Ai", type="password")
 
@@ -202,3 +205,6 @@ if prompt := st.chat_input():
     msg = response.choices[0].message.content
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
+
+    with st.button("I'm done!"):
+        st.switch_page(f"myPages/ai.py")
