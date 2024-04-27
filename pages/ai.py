@@ -155,12 +155,14 @@ def selectDataframe(dataset: str, selected_parameters: List[str]):
     except ValueError:
         st.error("Oops! Some selected water parameters do not exist in this dataset. Try again...")
 
-parameters = [1,2,3,4]
+parameters = [1,2,3,4, 5, 6, 7]
 water_parameters = {1: "ODO mg/L",
                     2: "Temperature (c)",
                     3: "pH",
-                    4: "Total Water Column (m)"}
-                    # 5: "Salinity (ppt)",
+                    4: "Total Water Column (m)",
+                    5: "Date",
+                    6: "Time",
+                    7: "Salinity (ppt)",}
                     # 6: "Turbid+ NTU",
                     # 7: "BGA-PC cells/mL"}
 selected_parameters = [water_parameters.get(key) for key in
