@@ -24,12 +24,6 @@ st.subheader("Real-Time Sensor Data Visualization")
 
 
 def fetch_latest_data_iot(x):
-    """
-    Fetches the latest data using the provided parameter.
-
-    :param x: The collection or table object to fetch the data from.
-    :return: A pandas DataFrame containing the latest 100 records sorted by timestamp in descending order.
-    """
     records = x.find().sort("timestamp", -1).limit(100)  # Example: Get the latest 100 records
     return pd.DataFrame(list(records))
 

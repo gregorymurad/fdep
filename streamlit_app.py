@@ -48,10 +48,10 @@ def database_access(x):
 
 
 
-instrument = st.selectbox("Select a scientific instrument", ("", "Swarm", "Heron", "IoT"))
-if instrument == "IoT":
-    st.warning("In construction of IoT database 🚧. \n Please use another database")
-elif instrument == "Heron":
-    st.warning("In construction of Heron database 🚧. \n Please use another database")
-elif instrument == "Swarm":
+option_ = st.selectbox("Select a scientific instrument", ("", "Real Time Data", "Historical Data", "AI 🤖"))
+if option_ == "Real Time Data":
     database_access('swarm')
+elif option_ == "Historical Data":
+    st.switch_page(f"pages/historicalData.py")
+elif option_ == "AI 🤖":
+    st.switch_page(f"pages/ai.py")

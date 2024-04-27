@@ -132,6 +132,3 @@ else:
     st.error("No collection selected or session expired.")
     st.button("Go Back", on_click=st.switch_page, args=("streamlit_app.py",))
 
-
-
-
