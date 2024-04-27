@@ -48,7 +48,7 @@ def database_access(x):
 
 
 
-option_ = st.selectbox("Select a scientific instrument", ("", "Real Time Data", "Historical Data", "AI 🤖"))
+option_ = st.selectbox("Select a Dashboard", ("", "Real Time Data", "Historical Data", "AI 🤖"))
 if option_ == "Real Time Data":
     database_access('swarm')
 elif option_ == "Historical Data":
