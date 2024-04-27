@@ -206,5 +206,3 @@ if prompt := st.chat_input():
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
 
-with st.button("I'm done!"):
-    st.switch_page(f"pages/ai.py")
