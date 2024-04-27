@@ -207,4 +207,4 @@ if prompt := st.chat_input():
     st.chat_message("assistant").write(msg)
 
     with st.button("I'm done!"):
-        st.switch_page(f"myPages/ai.py")
+        st.switch_page(f"pages/ai.py")

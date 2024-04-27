@@ -52,6 +52,6 @@ option_ = st.selectbox("Select a Dashboard", ("", "Real Time Data", "Historical 
 if option_ == "Real Time Data":
     database_access('swarm')
 elif option_ == "Historical Data":
-    st.switch_page(f"myPages/historicalData.py")
+    st.switch_page(f"pages/historicalData.py")
 elif option_ == "AI 🤖":
-    st.switch_page(f"myPages/ai.py")
+    st.switch_page(f"pages/ai.py")
