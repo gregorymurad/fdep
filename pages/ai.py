@@ -173,7 +173,7 @@ def fetch_latest_data_iot(x):
 
 # data = fetch_latest_data_iot(collection_)
 # data = data_df[["Temp (C)", "Sal (PPT)", "Depth (m)"]]
-data = entire_ds
+data = partial_ds
 
 
 with st.sidebar:
