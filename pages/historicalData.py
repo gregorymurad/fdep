@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 st.set_page_config(page_title="Real-Time Data Dashboard", layout="wide")
+st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
+st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
+st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
+st.sidebar.page_link("pages/ai.py", label="BayBot (AI Tool)", icon="🤖")
 
 
 # DATA BY LOCATION
@@ -71,10 +75,10 @@ lr_oct_2020_1 = "Logs/LittleRiver/ManualLog_17_00_45_64.csv" #oct3
 lr_oct_2020_2 = "Logs/LittleRiver/20201004_171844_TestForLittleRiver_IVER2-218.csv"
 lr_oct_2020_3 = "Logs/LittleRiver/20201004_180324_LittleRiverOct4_IVER2-218.csv"
 
-st.header("BayWatchGuard - Navigating Biscayne Bay's Health")
-st.subheader("Insights Powered by Autonomous Marine Robots - FIU's Robotics and Autonomous Systems Laboratory for Coastal Conservation and Restoration")
+st.title("BayBot 🤖")
+st.header("Making water quality data clear as Biscayne Bay.")
+st.subheader("The first AI powered water quality monitoring app")
 
-# st.markdown("---")
 col1, col2, col3 = st.columns(3)
 with col1:
     loc_option = st.selectbox("Choose a location:",

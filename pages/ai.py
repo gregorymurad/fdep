@@ -5,7 +5,14 @@ import pandas as pd
 import openai
 from typing import List
 
-
+st.set_page_config(page_title="BayBot", layout="wide")
+st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
+st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
+st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
+st.sidebar.page_link("pages/ai.py", label="BayBot (AI Tool)", icon="🤖")
+st.title("BayBot 🤖")
+st.header("Making water quality data clear as Biscayne Bay.")
+st.subheader("The first AI powered water quality monitoring app")
 # client2 = MongoClient(url)
 # db_ = client2["biscaynebay"]
 # collection_ = db_["mission_202404251553"]
@@ -177,34 +184,40 @@ def fetch_latest_data_iot(x):
 # data = data_df[["Temp (C)", "Sal (PPT)", "Depth (m)"]]
 data = partial_ds
 
-
+if "start_chat" not in st.session_state:
+    st.session_state.start_chat = False
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="Open Ai", type="password")
 
 
-st.title("BayBot 🤖")
-st.header("Making water quality data clear as Biscayne Bay.")
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [
-        {'role': 'system', "content": f"You are going to answer questions about the water quality data in Biscayne Bay, Florida. Questions can be similar to queries, where users may ask you about the columns names, average of a certain column, etc. The overall goal is environmental monitoring. The data you should use to answer the questions is in {data}."},
-        {"role": "assistant", "content": "I am BayBot, the smartest bot ever. I am here to bring Biscayne Bay's underwater secrets to the surface. How can I help you?"}]
 
-for msg in st.session_state.messages:
-    if msg["role"] != "system":
-        st.chat_message(msg["role"]).write(msg["content"])
+if st.sidebar.button("Start"):
+    st.session_state.start_chat = True
+if st.button("Stop"):
+    st.session_state.messages = []
+    st.session_state.start_chat = False
+if st.session_state.start_chat:
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [
+            {'role': 'system', "content": f"You are going to answer questions about the water quality data in Biscayne Bay, Florida. Questions can be similar to queries, where users may ask you about the columns names, average of a certain column, etc. The overall goal is environmental monitoring. The data you should use to answer the questions is in {data}."},
+            {"role": "assistant", "content": "I am BayBot, the smartest bot ever. I am here to bring Biscayne Bay's underwater secrets to the surface. How can I help you?"}]
 
-if prompt := st.chat_input():
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-        st.stop()
+    for msg in st.session_state.messages:
+        if msg["role"] != "system":
+            st.chat_message(msg["role"]).write(msg["content"])
 
-    client = OpenAI(api_key=openai_api_key)
+    if prompt := st.chat_input():
+        if not openai_api_key:
+            st.info("Please add your OpenAI API key to continue.")
+            st.stop()
 
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
-    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-    msg = response.choices[0].message.content
-    st.session_state.messages.append({"role": "assistant", "content": msg})
-    st.chat_message("assistant").write(msg)
+        client = OpenAI(api_key=openai_api_key)
+
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.chat_message("user",avatar="👤").write(prompt)
+        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        msg = response.choices[0].message.content
+        st.session_state.messages.append({"role": "assistant", "content": msg})
+        st.chat_message("assistant",avatar="🌊").write(msg)
 
