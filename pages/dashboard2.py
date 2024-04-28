@@ -71,7 +71,7 @@ if 'collection' in st.session_state:
                 center_lat, center_lon = 0, 0
 
             # Start map at the computed average location
-            my_map = folium.Map(location=[center_lat, center_lon], zoom_start=20)
+            my_map = folium.Map(location=[center_lat, center_lon], zoom_start=8)
 
             # Add points from the data
             for index, item in data.iterrows():
