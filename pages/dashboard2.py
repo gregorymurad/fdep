@@ -13,7 +13,7 @@ st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
 st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
-st.sidebar.page_link("pages/ai.py", label="BayBot (AI Tool)", icon="🤖")
+st.sidebar.page_link("pages/ai3.py", label="BayBot (AI Tool)", icon="🤖")
 
 menu = option_menu(
     menu_title=None,
