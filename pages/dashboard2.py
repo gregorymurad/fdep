@@ -12,7 +12,6 @@ import plotly.express as px
 
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
-st.title("Is Leo here?")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
 st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
@@ -47,8 +46,6 @@ def fetch_latest_data_iot(x):
     records = x.find().sort("timestamp", -1).limit(1000)
     return pd.DataFrame(list(records))
 
-
-st_autorefresh(interval=5000, key='data_refresh')
 
 if 'collection' in st.session_state:
     df = fetch_latest_data_iot(st.session_state['collection'])
@@ -149,41 +146,51 @@ if 'collection' in st.session_state:
                 swarm_marker.add_to(my_map)
             return my_map
         # data= fetch_latest_data_iot(st.session_state['collection'])
-        my_map = create_map(df)  # Create the map
-        folium_static(my_map) #width=1550, height=800
 
+        @st.experimental_fragment
+        def plotFinally():
+            st_autorefresh(interval=10000, key='data_refresh')
+            my_map = create_map(df)  # Create the map
+            folium_static(my_map, width=1200, height=800) #width=1550, height=800
+
+
+        plotFinally()
         # time.sleep(5)
     if menu == "Charts - Real Time Visualization":
-    # with tab2:
-        # Variables to plot (excluding Date, Time, and DateTime)
-        variables_to_plot = ['Temp (C)', 'Chl (ug/L)', 'BGA-PE (ug/L)', 'Turb (FNU)', 'TSS (mg/L)',
-                             'ODO (%sat)', 'ODO (mg/l)', 'Cond (uS/cm)',
-                             'Sal (PPT)', 'Pressure (psi a)', 'Depth (m)']
+        @st.experimental_fragment
+        def chartFinally():
+            st_autorefresh(interval=5000, key='data_refresh2')
+            variables_to_plot = ['Temp (C)', 'Chl (ug/L)', 'BGA-PE (ug/L)', 'Turb (FNU)', 'TSS (mg/L)',
+                                 'ODO (%sat)', 'ODO (mg/l)', 'Cond (uS/cm)',
+                                 'Sal (PPT)', 'Pressure (psi a)', 'Depth (m)']
 
-        # Streamlit selectbox widget
-        selected_variable = st.selectbox(
-            'Choose a variable to plot:',
-            variables_to_plot)
+            # Streamlit selectbox widget
+            selected_variable = st.selectbox(
+                'Choose a variable to plot:',
+                variables_to_plot)
 
-        # variable to plot
-        var = selected_variable
+            # variable to plot
+            var = selected_variable
 
-        # create plot
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=df['Time'], y=df[var], mode='lines+markers',
-            name=var,
-            hoverinfo='y+name',
-            text=[f'{var}: {val}' for val in df[var]],
-            marker=dict(color=color_dict[var])  # Here is where we use the color
-        ))
-        fig.update_layout(
-            title=f'Sensor Data for {var} on {df["Date"].iloc[0]}',
-            xaxis_title='Time',
-            yaxis_title='Values',
-            legend_title='Parameters'
-        )
-        st.plotly_chart(fig, use_container_width=True)
+            # create plot
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                x=df['Time'], y=df[var], mode='lines+markers',
+                name=var,
+                hoverinfo='y+name',
+                text=[f'{var}: {val}' for val in df[var]],
+                marker=dict(color=color_dict[var])  # Here is where we use the color
+            ))
+            fig.update_layout(
+                title=f'Sensor Data for {var} on {df["Date"].iloc[0]}',
+                xaxis_title='Time',
+                yaxis_title='Values',
+                legend_title='Parameters'
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+
+        chartFinally()
     st.divider()
     with st.expander("See table with Raw Data", expanded=False):
         st.dataframe(df)
