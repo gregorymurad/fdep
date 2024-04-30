@@ -4,7 +4,7 @@ import random
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
 import folium
-from streamlit_folium import folium_static
+from streamlit_folium import folium_static, st_folium
 import time
 from streamlit_option_menu import option_menu
 import pydeck as pdk
@@ -151,18 +151,18 @@ if 'collection' in st.session_state:
         def plotFinally():
             st_autorefresh(interval=10000, key='data_refresh')
             my_map = create_map(df)  # Create the map
-            folium_static(my_map) #width=1550, height=800
+            st_folium(my_map, use_container_width=True) #width=1550, height=800
 
         @st.experimental_fragment
         def interactiveMap():
             my_map = create_map(df)  # Create the map
-            folium_static(my_map)  # width=1550, height=800
+            st_folium(my_map, use_container_width=True)  # width=1550, height=800
 
-        col1, col2 = st.columns(2)
-        with col1:
+        realTime, interactive_ = st.tabs(["Updating Live","Interactive Map"])
+        with realTime:
             st.subheader("Updating Live")
             plotFinally()
-        with col2:
+        with interactive_:
             st.subheader("Interactive Map")
             interactiveMap()
         # time.sleep(5)
