@@ -151,12 +151,12 @@ if 'collection' in st.session_state:
         def plotFinally():
             st_autorefresh(interval=10000, key='data_refresh')
             my_map = create_map(df)  # Create the map
-            folium_static(my_map, width=1200, height=800) #width=1550, height=800
+            folium_static(my_map) #width=1550, height=800
 
         @st.experimental_fragment
         def interactiveMap():
             my_map = create_map(df)  # Create the map
-            folium_static(my_map, width=1200, height=800)  # width=1550, height=800
+            folium_static(my_map)  # width=1550, height=800
 
         col1, col2 = st.columns(2)
         with col1:
