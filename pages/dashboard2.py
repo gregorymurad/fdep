@@ -153,8 +153,18 @@ if 'collection' in st.session_state:
             my_map = create_map(df)  # Create the map
             folium_static(my_map, width=1200, height=800) #width=1550, height=800
 
+        @st.experimental_fragment
+        def interactiveMap():
+            my_map = create_map(df)  # Create the map
+            folium_static(my_map, width=1200, height=800)  # width=1550, height=800
 
-        plotFinally()
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Updating Live")
+            plotFinally()
+        with col2:
+            st.subheader("Interactive Map")
+            interactiveMap()
         # time.sleep(5)
     if menu == "Charts - Real Time Visualization":
         @st.experimental_fragment
