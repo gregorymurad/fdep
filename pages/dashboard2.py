@@ -110,7 +110,7 @@ if 'collection' in st.session_state:
 
             # Start map at the computed average location
             my_map = folium.Map(location=[center_lat, center_lon],
-                                zoom_start=18,
+                                zoom_start=20,
                                 control_scale=True,
                                 prefer_canvas=True)
 
@@ -149,7 +149,7 @@ if 'collection' in st.session_state:
             return my_map
         # data= fetch_latest_data_iot(st.session_state['collection'])
         my_map = create_map(df)  # Create the map
-        folium_static(my_map, width=1550, height=800)
+        folium_static(my_map) #width=1550, height=800
 
         # time.sleep(5)
     if menu == "Charts - Real Time Visualization":

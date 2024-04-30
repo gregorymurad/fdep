@@ -47,7 +47,7 @@ def database_access(x):
 
             print("Session state collection type:", type(st.session_state['collection']))
             # st.switch_page(f"pages/real_time_stream_{x}.py")  # Make sure the state is already updated
-            st.switch_page(f"pages/dashboard2.py")
+            st.switch_page(f"pages/dashboard3.py")
     this_client.close()
 
 
