@@ -12,6 +12,7 @@ import plotly.express as px
 
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
+st.title("Jose Fuentes")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
 st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
