@@ -55,6 +55,7 @@ streamlit==1.33.0
 streamlit-autorefresh==1.0.1
 streamlit-option-menu==0.3.12
 streamlit_folium==0.20.0
+streamlit_extras==0.4.2
 tenacity==8.2.3
 toml==0.10.2
 toolz==0.12.1
