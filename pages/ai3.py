@@ -4,6 +4,8 @@ from pymongo import MongoClient
 import pandas as pd
 import openai
 from typing import List
+from streamlit_extras.bottom_container import bottom
+
 
 st.set_page_config(page_title="BayBot", layout="wide")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
@@ -191,9 +193,14 @@ def fetch_latest_data_iot(x):
 
 if "start_chat" not in st.session_state:
     st.session_state.start_chat = False
-st.sidebar.divider()
-with st.sidebar:
-    st.subheader("OpenAI API Key")
+# st.sidebar.divider()
+# with st.sidebar:
+#     st.subheader("OpenAI API Key")
+#     openai_api_key = st.text_input("",placeholder="Enter your key", key="Open Ai", type="password")
+#     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
+with st.popover("OpenAI API key"):
+    # st.markdown("Hello World 👋")
+    st.markdown("**OpenAI API Key**")
     openai_api_key = st.text_input("",placeholder="Enter your key", key="Open Ai", type="password")
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
 
@@ -238,3 +245,6 @@ if st.session_state.start_chat:
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant",avatar="🌊").write(msg)
 
+with bottom():
+    st.divider()
+    st.write("This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")

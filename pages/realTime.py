@@ -2,6 +2,8 @@ import streamlit as st
 from pymongo import MongoClient
 import os
 import utils
+from streamlit_extras.bottom_container import bottom
+
 
 st.set_page_config(page_title="Real-Time Data Dashboard", layout="wide")
 
@@ -47,9 +49,14 @@ def database_access(x):
 
             print("Session state collection type:", type(st.session_state['collection']))
             # st.switch_page(f"pages/real_time_stream_{x}.py")  # Make sure the state is already updated
-            st.switch_page(f"pages/dashboard2.py")
+            st.switch_page(f"pages/dashboard5.py")
     this_client.close()
 
 
 if __name__ == '__main__':
     database_access('swarm')
+
+    with bottom():
+        st.divider()
+        st.write(
+            "This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")

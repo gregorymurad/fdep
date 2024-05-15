@@ -4,6 +4,8 @@ from pymongo import MongoClient
 import pandas as pd
 import openai
 from typing import List
+from streamlit_extras.bottom_container import bottom
+
 
 st.set_page_config(page_title="BayBot", layout="wide")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
@@ -190,8 +192,6 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="Open Ai", type="password")
 
 
-
-
 if st.sidebar.button("Start"):
     st.session_state.start_chat = True
 if st.button("Stop"):
@@ -200,24 +200,32 @@ if st.button("Stop"):
 if st.session_state.start_chat:
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
-            {'role': 'system', "content": f"You are going to answer questions about the water quality data in Biscayne Bay, Florida. Questions can be similar to queries, where users may ask you about the columns names, average of a certain column, etc. The overall goal is environmental monitoring. The data you should use to answer the questions is in {data}."},
-            {"role": "assistant", "content": "I am BayBot, the smartest bot ever. I am here to bring Biscayne Bay's underwater secrets to the surface. How can I help you?"}]
+            {'role': 'system', "content": f"You are going to answer questions about the water quality data "
+                                          f"in Biscayne Bay, Florida. Questions can be similar to queries,"
+                                          f" where users may ask you about the columns names, average of a "
+                                          f"certain column, etc. The overall goal is environmental monitoring."
+                                          f" The data you should use to answer the questions is in {data}."},
+            {"role": "assistant", "content": "I am BayBot, the smartest bot ever. I am here to bring Biscayne Bay's"
+                                             " underwater secrets to the surface. How can I help you?"}]
 
     for msg in st.session_state.messages:
         if msg["role"] != "system":
             st.chat_message(msg["role"]).write(msg["content"])
 
-    if prompt := st.chat_input():
-        if not openai_api_key:
-            st.info("Please add your OpenAI API key to continue.")
-            st.stop()
+    if not openai_api_key:
+        st.info("Please add your OpenAI API key to continue.")
+        st.stop()
 
-        client = OpenAI(api_key=openai_api_key)
+    client = OpenAI(api_key=openai_api_key)
 
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.chat_message("user",avatar="👤").write(prompt)
-        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    if prompt := st.chat_input(placeholder="What would you like to know about the data?"):
+        st.session_state.messages.append({"role": "user", "content": prompt}) #i am stacking the prompt that the user entered
+        st.chat_message("user",avatar="👤").write(prompt) # displaying into the chat the prompt
+        response = client.chat.completions.create(model="gpt-4-turbo", messages=st.session_state.messages)
         msg = response.choices[0].message.content
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant",avatar="🌊").write(msg)
 
+with bottom():
+    st.divider()
+    st.write("This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")

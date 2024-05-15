@@ -5,6 +5,8 @@ import pydeck as pdk
 from PIL import Image
 import matplotlib.pyplot as plt
 import plotly.express as px
+from streamlit_extras.bottom_container import bottom
+
 
 st.set_page_config(page_title="Real-Time Data Dashboard", layout="wide")
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
@@ -335,7 +337,6 @@ with ourResearch:
         image4 = Image.open('Images/3_robot_4.png')
         st.image(image4, caption="Network of autonomous marine vehicles, buoys, and aerial drones for real-time environmental monitoring.")
 
-
-
-
-st.divider()
+with bottom():
+    st.divider()
+    st.write("This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")

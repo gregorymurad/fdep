@@ -9,9 +9,12 @@ import time
 from streamlit_option_menu import option_menu
 import pydeck as pdk
 import plotly.express as px
+from streamlit_extras.bottom_container import bottom
 
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
+st_autorefresh(interval=5000, key='wholePage_refresh')
+
 st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
 st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
@@ -99,6 +102,8 @@ if 'collection' in st.session_state:
                 }
             ))
         def create_map(data):
+
+
             # Create a map centered around an average coordinate
             if not data.empty:
                 center_lat, center_lon = data['latitude'].mean(), data['longitude'].mean()
@@ -108,11 +113,12 @@ if 'collection' in st.session_state:
 
             # Start map at the computed average location
             my_map = folium.Map(location=[center_lat, center_lon],
-                                zoom_start=20,
+                                zoom_start=18,
                                 control_scale=True,
                                 prefer_canvas=True)
 
             # Add points from the data
+            n_rows = len(data.index)
             for index, item in data.iterrows():
                 tooltip = (
                     f"Date: {item.get('Date', 'N/A')} <br/> Time: {item.get('Time', 'N/A')} <br/>"
@@ -135,7 +141,7 @@ if 'collection' in st.session_state:
                               fill=True)
                 icon = folium.CustomIcon(
                     image_,
-                    icon_size=(15, 30),
+                    icon_size=(30, 45),
                     # icon_anchor=(22, 94),
                 )
                 swarm_marker = folium.Marker(
@@ -143,64 +149,60 @@ if 'collection' in st.session_state:
                     tooltip=tooltip,
                     icon=icon
                 )
-                swarm_marker.add_to(my_map)
+
+                if index != n_rows - 1:
+                    circle_marker.add_to(my_map)
+                else:
+                    swarm_marker.add_to(my_map)
             return my_map
         # data= fetch_latest_data_iot(st.session_state['collection'])
 
-        @st.experimental_fragment
         def plotFinally():
-            st_autorefresh(interval=10000, key='data_refresh')
             my_map = create_map(df)  # Create the map
-            st_folium(my_map, use_container_width=True) #width=1550, height=800
+            folium_static(my_map,width=1200, height=800)
 
-        @st.experimental_fragment
         def interactiveMap():
-            my_map = create_map(df)  # Create the map
-            st_folium(my_map, use_container_width=True)  # width=1550, height=800
+            my_map2 = create_map(df)  # Create the map
+            st_folium(my_map2,key="interactive", use_container_width=True)  # width=1550, height=800
 
-        realTime, interactive_ = st.tabs(["Updating Live","Interactive Map"])
-        with realTime:
-            st.subheader("Updating Live")
+        with st.container():
+            st.subheader("Updating Live 📊")
             plotFinally()
-        with interactive_:
-            st.subheader("Interactive Map")
+        with st.container():
+            st.subheader("Interactive Map 🗺️")
             interactiveMap()
-        # time.sleep(5)
+
     if menu == "Charts - Real Time Visualization":
-        @st.experimental_fragment
-        def chartFinally():
-            st_autorefresh(interval=5000, key='data_refresh2')
-            variables_to_plot = ['Temp (C)', 'Chl (ug/L)', 'BGA-PE (ug/L)', 'Turb (FNU)', 'TSS (mg/L)',
-                                 'ODO (%sat)', 'ODO (mg/l)', 'Cond (uS/cm)',
-                                 'Sal (PPT)', 'Pressure (psi a)', 'Depth (m)']
 
-            # Streamlit selectbox widget
-            selected_variable = st.selectbox(
-                'Choose a variable to plot:',
-                variables_to_plot)
+        variables_to_plot = ['Temp (C)', 'Chl (ug/L)', 'BGA-PE (ug/L)', 'Turb (FNU)', 'TSS (mg/L)',
+                             'ODO (%sat)', 'ODO (mg/l)', 'Cond (uS/cm)',
+                             'Sal (PPT)', 'Pressure (psi a)', 'Depth (m)']
 
-            # variable to plot
-            var = selected_variable
+        # Streamlit selectbox widget
+        selected_variable = st.selectbox(
+            'Choose a variable to plot:',
+            variables_to_plot)
 
-            # create plot
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(
-                x=df['Time'], y=df[var], mode='lines+markers',
-                name=var,
-                hoverinfo='y+name',
-                text=[f'{var}: {val}' for val in df[var]],
-                marker=dict(color=color_dict[var])  # Here is where we use the color
-            ))
-            fig.update_layout(
-                title=f'Sensor Data for {var} on {df["Date"].iloc[0]}',
-                xaxis_title='Time',
-                yaxis_title='Values',
-                legend_title='Parameters'
-            )
-            st.plotly_chart(fig, use_container_width=True)
+        # variable to plot
+        var = selected_variable
 
+        # create plot
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=df['Time'], y=df[var], mode='lines+markers',
+            name=var,
+            hoverinfo='y+name',
+            text=[f'{var}: {val}' for val in df[var]],
+            marker=dict(color=color_dict[var])  # Here is where we use the color
+        ))
+        fig.update_layout(
+            title=f'Sensor Data for {var} on {df["Date"].iloc[0]}',
+            xaxis_title='Time',
+            yaxis_title='Values',
+            legend_title='Parameters'
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
-        chartFinally()
     st.divider()
     with st.expander("See table with Raw Data", expanded=False):
         st.dataframe(df)
@@ -212,3 +214,6 @@ else:
     st.error("No collection selected or session expired.")
     st.button("Go Back", on_click=st.switch_page, args=("streamlit_app.py",))
 
+with bottom():
+    st.divider()
+    st.write("This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")

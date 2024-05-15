@@ -3,9 +3,15 @@ import pandas as pd
 import random
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
+from streamlit_extras.bottom_container import bottom
 
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
+st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
+st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
+st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
+st.sidebar.page_link("pages/ai.py", label="BayBot (AI Tool)", icon="🤖")
+
 
 color_dict = {'Chl (ug/L)': 'green',
               'BGA-PE (ug/L)': 'blue',
@@ -79,6 +85,6 @@ else:
     st.error("No collection selected or session expired.")
     st.button("Go Back", on_click=st.switch_page, args=("streamlit_app.py",))
 
-
-
-
+with bottom():
+    st.divider()
+    st.write("This project is conducted by the MARINE Lab in collaboration with Boswell Lab and Mora Lab for the FDEP project. The goal of this initiative is to advance our understanding and management of marine ecosystems through innovative data analysis and visualization techniques.")
