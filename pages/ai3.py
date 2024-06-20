@@ -12,6 +12,8 @@ st.sidebar.page_link("streamlit_app.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/realTime.py", label="Real-Time Data", icon="🚢")
 st.sidebar.page_link("pages/historicalData.py", label="Historical Data", icon="📊")
 st.sidebar.page_link("pages/ai3.py", label="BayBot (AI Tool)", icon="🤖")
+st.sidebar.page_link("pages/EnviDataAcademy.py", label="EnviData Academy", icon="🏫")
+
 st.sidebar.divider()
 st.sidebar.subheader("Choose a Dataset")
 dataset = None
